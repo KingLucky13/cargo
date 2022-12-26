@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Arrays;
+
 public class Box {
     private double length;
     private double width;
@@ -29,5 +31,10 @@ public class Box {
 
     public double getDensity() {
         return density;
+    }
+    public double getParam(int id){
+        double[] params={this.getLength(),this.getWidth(), this.getHeight()};
+        Arrays.sort(params);
+        return params[id];
     }
 }
