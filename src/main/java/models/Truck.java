@@ -1,25 +1,27 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Truck {
-    private List<Box> boxList;
-    private double costOfCall; // стоимость подачи
-    private double costOfLoadingPerKilo; // стоимость загрузки килограма
-    private double costOfUnloadingPerKilogram; // стоимость разгрузки за кг
-    private double pricePerKilometer; // стоимость траспортировки за 1 км
+    private static List<Box> boxList;
+    private static double costOfCall; // стоимость подачи
+    private static  double costOfLoadingPerKilo; // стоимость загрузки килограма
+    private static double costOfUnloadingPerKilogram; // стоимость разгрузки за кг
+    private static double pricePerKilometer; // стоимость траспортировки за 1 км
 
-    private BoxParams maxBoxParams; //максимальная вместительность
+    private static BoxParams maxBoxParams; //максимальная вместительность
     public Truck(double costOfCall, double costOfLoadingPerKilo, double costOfUnloadingPerKilogram, double pricePerKilometer, BoxParams maxBoxParams) {
         this.costOfCall = costOfCall;
         this.costOfLoadingPerKilo = costOfLoadingPerKilo;
         this.costOfUnloadingPerKilogram = costOfUnloadingPerKilogram;
         this.pricePerKilometer = pricePerKilometer;
         this.maxBoxParams = maxBoxParams;
+        boxList=new ArrayList<>();
     }
 
-    public boolean hasEnoughSpaceToPlace(Box box){
+    public static boolean hasEnoughSpaceToPlace(Box box){
         double[] givenParams={box.getLength(),box.getWidth(), box.getHeight()};
         double[] maxParams={maxBoxParams.getLength(), maxBoxParams.getWidth(), maxBoxParams.getHeight()};
         Arrays.sort(givenParams);
@@ -30,7 +32,7 @@ public class Truck {
         return false;
     }
 
-    public Double priceForTransportation(double kmDistance, Box box){
+    public static Double priceForTransportation(double kmDistance, Box box){
         if(!hasEnoughSpaceToPlace(box)){
             throw new RuntimeException("нет места");
         }
@@ -39,7 +41,7 @@ public class Truck {
         return cost;
     }
 
-    public void loadingOfCargo(Box box){
+    public static Object loadingOfCargo(Box box){
         if(!hasEnoughSpaceToPlace(box)) {
             throw new RuntimeException("нет места");
         }
@@ -60,6 +62,7 @@ public class Truck {
                 maxBoxParams.setWidth(maxBoxParams.getParam(1));
                 maxBoxParams.setHeight(maxBoxParams.getParam(2)-box.getParam(2));
             }
+            return null;
             //уменьшить место
         }
     }
@@ -87,4 +90,5 @@ public class Truck {
     public BoxParams getMaxBoxParams() {
         return maxBoxParams;
     }
+
 }
